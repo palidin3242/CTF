@@ -1,6 +1,6 @@
 ---
 - name: Create users and assign them to appropriate groups
-  hosts: server1
+  hosts: server2
   become: yes
   tasks:
 
@@ -20,18 +20,19 @@
         state: present
         groups: "{{ item.groups }}"
         shell: /bin/bash
-        ssh_authorized_keys: "{{ item.ssh_key }}"
+        ssh_authorized_keys: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFN90Xtfjxqs2ZpO0VqR1jr92mJiTx3IaEl/F+LiOZJK
+        password: @#FD12
       loop:
-        - { name: Annabelle, groups: "Sales", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFN90Xtfjxqs2ZpO0VqR1jr92mJiTx3IaEl/F+LiOZJK" }
-        - { name: Bob, groups: "IT", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFN90Xtfjxqs2ZpO0VqR1jr92mJiTx3IaEl/F+LiOZJK" }
-        - { name: Carl, groups: "Support", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFN90Xtfjxqs2ZpO0VqR1jr92mJiTx3IaEl/F+LiOZJK" }
-        - { name: Dyson, groups: "Support", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFN90Xtfjxqs2ZpO0VqR1jr92mJiTx3IaEl/F+LiOZJK" }
-        - { name: Evert, groups: "IT", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFN90Xtfjxqs2ZpO0VqR1jr92mJiTx3IaEl/F+LiOZJK" }
-        - { name: Frank, groups: "Sales", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFN90Xtfjxqs2ZpO0VqR1jr92mJiTx3IaEl/F+LiOZJK" }
-        - { name: Gerry, groups: "Support", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFN90Xtfjxqs2ZpO0VqR1jr92mJiTx3IaEl/F+LiOZJK" }
-        - { name: Harold, groups: "IT", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFN90Xtfjxqs2ZpO0VqR1jr92mJiTx3IaEl/F+LiOZJK" }
-        - { name: Isabella, groups: "Services", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFN90Xtfjxqs2ZpO0VqR1jr92mJiTx3IaEl/F+LiOZJK" }
-        - { name: Jameson, groups: "Services", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFN90Xtfjxqs2ZpO0VqR1jr92mJiTx3IaEl/F+LiOZJK" }
+        - { name: Annabelle, groups: "Sales" }
+        - { name: Bob, groups: "IT" }
+        - { name: Carl, groups: "Support" }
+        - { name: Dyson, groups: "Support" }
+        - { name: Evert, groups: "IT" }
+        - { name: Frank, groups: "Sales" }
+        - { name: Gerry, groups: "Support" }
+        - { name: Harold, groups: "IT" }
+        - { name: Isabella, groups: "Services" }
+        - { name: Jameson, groups: "Services" }
 
     - name: Set SSH key directory permissions
       file:

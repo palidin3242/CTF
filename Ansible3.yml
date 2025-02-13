@@ -1,0 +1,47 @@
+---
+- name: Setup 1GB partition on /dev/nvme1n1 and mount to /extdrive with IT group access
+  hosts: server2
+  become: yes
+  tasks:
+
+    - name: Create a 1GB partition on /dev/nvme1n1
+      parted:
+        device: /dev/nvme1n1
+        number: 1
+        state: present
+        size: 1GB
+        align: optimal
+        fs_type: xfs4
+
+    - name: Create an XFS filesystem on /dev/nvme1n1p1
+      filesystem:
+        fstype: xfs4
+        device: /dev/nvme1n1p1
+
+    - name: Create mount point directory /extdrive
+      file:
+        path: /extdrive
+        state: directory
+
+    - name: Mount the partition to /extdrive
+      mount:
+        path: /extdrive
+        src: /dev/nvme1n1p1
+        fstype: xfs4
+        state: mounted
+        opts: defaults
+
+    - name: Ensure the partition is added to /etc/fstab for automount
+      mount:
+        path: /extdrive
+        src: /dev/nvme1n1p1
+        fstype: xfs4
+        opts: defaults
+        state: present
+
+    - name: Set the ownership and permissions for the IT group
+      file:
+        path: /extdrive
+        owner: root
+        group: IT
+        mode: '0770'

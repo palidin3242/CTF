@@ -1,6 +1,6 @@
 ---
 - name: Create users and assign them to appropriate groups
-  hosts: all
+  hosts: server1
   become: yes
   tasks:
 
